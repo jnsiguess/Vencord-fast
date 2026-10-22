@@ -16,413 +16,229 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.7"
+      - name: Crear proyecto BlackCord
+        run: |
+          base64 -d <<'EOF_VMF' | tar -xJ
+          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
+          EOF_VMF
+          ls -R app/src/main | head -40
       - name: Descargar Vencord completo
         run: |
           mkdir -p app/src/main/assets
           curl -L --fail -o app/src/main/assets/browser.js https://github.com/Vendicated/Vencord/releases/download/devbuild/browser.js
           curl -L --fail -o app/src/main/assets/browser.css https://github.com/Vendicated/Vencord/releases/download/devbuild/browser.css || echo "sin browser.css"
-          ls -la app/src/main/assets
-      - name: Crear settings.gradle.kts
-        run: |
-          cat > "settings.gradle.kts" <<'EOF_VMF'
-          pluginManagement {
-              repositories {
-                  google()
-                  mavenCentral()
-                  gradlePluginPortal()
-              }
-          }
-          dependencyResolutionManagement {
-              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
-          rootProject.name = "BlackCord"
-          include(":app")
-          EOF_VMF
-      - name: Crear build.gradle.kts
-        run: |
-          cat > "build.gradle.kts" <<'EOF_VMF'
-          plugins {
-              id("com.android.application") version "8.5.2" apply false
-              id("org.jetbrains.kotlin.android") version "1.9.24" apply false
-          }
-          EOF_VMF
-      - name: Crear gradle.properties
-        run: |
-          cat > "gradle.properties" <<'EOF_VMF'
-          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
-          android.useAndroidX=true
-          kotlin.code.style=official
-          EOF_VMF
-      - name: Crear app/build.gradle.kts
-        run: |
-          mkdir -p "app"
-          cat > "app/build.gradle.kts" <<'EOF_VMF'
-          plugins {
-              id("com.android.application")
-              id("org.jetbrains.kotlin.android")
-          }
-
-          android {
-              namespace = "dev.blackcord.app"
-              compileSdk = 34
-
-              defaultConfig {
-                  applicationId = "dev.blackcord.app"
-                  minSdk = 24
-                  targetSdk = 34
-                  versionCode = 1
-                  versionName = "1.0"
-              }
-
-              buildTypes {
-                  release {
-                      isMinifyEnabled = false
-                      // firma con la clave de debug para que el APK release se pueda instalar directamente
-                      signingConfig = signingConfigs.getByName("debug")
-                  }
-              }
-              compileOptions {
-                  sourceCompatibility = JavaVersion.VERSION_17
-                  targetCompatibility = JavaVersion.VERSION_17
-              }
-              kotlinOptions { jvmTarget = "17" }
-          }
-
-          dependencies {
-              implementation("androidx.webkit:webkit:1.11.0")
-          }
-          EOF_VMF
-      - name: Crear app/src/main/AndroidManifest.xml
-        run: |
-          mkdir -p "app/src/main"
-          cat > "app/src/main/AndroidManifest.xml" <<'EOF_VMF'
-          <?xml version="1.0" encoding="utf-8"?>
-          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-              <uses-permission android:name="android.permission.INTERNET" />
-              <uses-permission android:name="android.permission.RECORD_AUDIO" />
-              <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
-              <application
-                  android:label="BlackCord"
-                  android:icon="@mipmap/ic_launcher"
-                  android:hardwareAccelerated="true"
-                  android:usesCleartextTraffic="false"
-                  android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
-
-                  <activity
-                      android:name=".MainActivity"
-                      android:exported="true"
-                      android:hardwareAccelerated="true"
-                      android:windowSoftInputMode="adjustResize"
-                      android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|keyboard|uiMode">
-                      <intent-filter>
-                          <action android:name="android.intent.action.MAIN" />
-                          <category android:name="android.intent.category.LAUNCHER" />
-                      </intent-filter>
-                  </activity>
-              </application>
-          </manifest>
-          EOF_VMF
-      - name: Crear app/src/main/java/dev/blackcord/app/MainActivity.kt
-        run: |
-          mkdir -p "app/src/main/java/dev/blackcord/app"
-          cat > "app/src/main/java/dev/blackcord/app/MainActivity.kt" <<'EOF_VMF'
-          package dev.blackcord.app
-
-          import android.Manifest
-          import android.annotation.SuppressLint
-          import android.app.Activity
-          import android.content.Intent
-          import android.content.pm.PackageManager
-          import android.graphics.Color
-          import android.net.Uri
-          import android.os.Bundle
-          import android.view.View
-          import android.view.ViewGroup
-          import android.webkit.CookieManager
-          import android.webkit.PermissionRequest
-          import android.webkit.ValueCallback
-          import android.webkit.WebChromeClient
-          import android.webkit.WebResourceRequest
-          import android.webkit.WebSettings
-          import android.webkit.WebView
-          import android.webkit.WebViewClient
-          import androidx.webkit.WebViewCompat
-          import androidx.webkit.WebViewFeature
-
-          class MainActivity : Activity() {
-
-              private lateinit var web: WebView
-              private var fileCallback: ValueCallback<Array<Uri>>? = null
-              private var pendingPermission: PermissionRequest? = null
-              private var injectedAtStart = false
-              private lateinit var payload: String
-
-              companion object {
-                  const val HOME = "https://discord.com/app"
-                  const val REQ_FILE = 1001
-                  const val REQ_MIC = 1002
-                  // dominios que se quedan dentro de la app (el resto se abre en el navegador)
-                  val INTERNAL = listOf("discord.com", "discordapp.com", "discord.media", "hcaptcha.com", "gstatic.com", "google.com")
-              }
-
-              @SuppressLint("SetJavaScriptEnabled")
-              override fun onCreate(savedInstanceState: Bundle?) {
-                  super.onCreate(savedInstanceState)
-                  window.statusBarColor = Color.parseColor("#1e1f22")
-                  window.navigationBarColor = Color.parseColor("#1e1f22")
-
-                  web = WebView(this)
-                  web.setBackgroundColor(Color.parseColor("#313338"))
-                  web.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-                  setContentView(
-                      web,
-                      ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                  )
-
-                  val s = web.settings
-                  s.javaScriptEnabled = true
-                  s.domStorageEnabled = true
-                  s.mediaPlaybackRequiresUserGesture = false
-                  s.cacheMode = WebSettings.LOAD_DEFAULT
-                  s.setSupportZoom(false)
-                  s.builtInZoomControls = false
-                  s.displayZoomControls = false
-                  s.useWideViewPort = true
-                  s.textZoom = 100
-                  s.allowFileAccess = false
-                  s.offscreenPreRaster = true
-
-                  CookieManager.getInstance().apply {
-                      setAcceptCookie(true)
-                      setAcceptThirdPartyCookies(web, true)
-                  }
-
-                  // capa táctil + Vencord completo
-                  val vencordCss = try { readAsset("browser.css") } catch (e: Exception) { "" }
-                  payload = "window.__VMF_CSS=" + org.json.JSONObject.quote(vencordCss) + ";\n" +
-                      readAsset("mobile_layer.js") + "\n;\n" + readAsset("browser.js")
-
-                  if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
-                      WebViewCompat.addDocumentStartJavaScript(web, payload, setOf("https://discord.com"))
-                      injectedAtStart = true
-                  }
-
-                  web.webViewClient = object : WebViewClient() {
-                      override fun onPageStarted(view: WebView, url: String?, favicon: android.graphics.Bitmap?) {
-                          // respaldo para WebViews antiguos sin soporte de script al inicio
-                          if (!injectedAtStart && url?.contains("discord.com") == true) {
-                              view.evaluateJavascript(payload, null)
-                          }
-                      }
-
-                      override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                          if (!request.isForMainFrame) return false
-                          val host = request.url.host ?: return false
-                          if (INTERNAL.any { host == it || host.endsWith(".$it") }) return false
-                          return try {
-                              startActivity(Intent(Intent.ACTION_VIEW, request.url))
-                              true
-                          } catch (e: Exception) {
-                              false
-                          }
-                      }
-                  }
-
-                  web.webChromeClient = object : WebChromeClient() {
-                      override fun onShowFileChooser(
-                          webView: WebView,
-                          callback: ValueCallback<Array<Uri>>,
-                          params: FileChooserParams
-                      ): Boolean {
-                          fileCallback?.onReceiveValue(null)
-                          fileCallback = callback
-                          return try {
-                              startActivityForResult(params.createIntent(), REQ_FILE)
-                              true
-                          } catch (e: Exception) {
-                              fileCallback = null
-                              false
-                          }
-                      }
-
-                      override fun onPermissionRequest(request: PermissionRequest) {
-                          runOnUiThread {
-                              val wantsMic = request.resources.contains(PermissionRequest.RESOURCE_AUDIO_CAPTURE)
-                              if (wantsMic && checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                                  pendingPermission = request
-                                  requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), REQ_MIC)
-                              } else {
-                                  request.grant(request.resources)
-                              }
-                          }
-                      }
-                  }
-
-                  if (savedInstanceState == null) web.loadUrl(HOME) else web.restoreState(savedInstanceState)
-              }
-
-              private fun readAsset(name: String): String =
-                  assets.open(name).bufferedReader().use { it.readText() }
-
-              @Deprecated("Deprecated in Java")
-              override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-                  if (requestCode == REQ_FILE) {
-                      fileCallback?.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data))
-                      fileCallback = null
-                  } else {
-                      @Suppress("DEPRECATION")
-                      super.onActivityResult(requestCode, resultCode, data)
-                  }
-              }
-
-              override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-                  super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-                  if (requestCode == REQ_MIC) {
-                      val req = pendingPermission
-                      pendingPermission = null
-                      if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) req?.grant(req.resources) else req?.deny()
-                  }
-              }
-
-              @Deprecated("Deprecated in Java")
-              override fun onBackPressed() {
-                  if (web.canGoBack()) web.goBack() else {
-                      @Suppress("DEPRECATION")
-                      super.onBackPressed()
-                  }
-              }
-
-              override fun onSaveInstanceState(outState: Bundle) {
-                  super.onSaveInstanceState(outState)
-                  web.saveState(outState)
-              }
-
-              override fun onPause() { web.onPause(); super.onPause() }
-              override fun onResume() { super.onResume(); web.onResume() }
-              override fun onDestroy() { web.destroy(); super.onDestroy() }
-          }
-          EOF_VMF
-      - name: Crear app/src/main/assets/mobile_layer.js
-        run: |
-          mkdir -p "app/src/main/assets"
-          cat > "app/src/main/assets/mobile_layer.js" <<'EOF_VMF'
-          // Capa táctil + CSS de BlackCord + botón flotante "B" para abrir los ajustes de BlackCord
-          (() => {
-              "use strict";
-              const OPT = { touchFix: true, pressFeedback: true, lite: true, passiveTouch: true, floatingButton: true };
-
-              const css = [];
-              if (OPT.touchFix) css.push(`
-                  html, body, a, button, input, textarea, select, summary,
-                  [role="button"], [role="tab"], [role="menuitem"], [role="option"], [role="switch"],
-                  [class*="clickable"], [class*="interactive"], [class*="button"] { touch-action: manipulation !important; }
-                  * { -webkit-tap-highlight-color: transparent; }
-                  html { overscroll-behavior: none; }`);
-              if (OPT.pressFeedback) css.push(`
-                  button:active, [role="button"]:active, [role="tab"]:active,
-                  [role="menuitem"]:active, [class*="clickable"]:active { opacity: .72; transition: none !important; }`);
-              if (OPT.lite) css.push(`
-                  * { transition-duration: .01s !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
-                  *, *::before, *::after { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }`);
-
-              const root = () => document.head || document.documentElement;
-
-              const addStyle = (id, text) => {
-                  if (!text || document.getElementById(id)) return;
-                  const r = root();
-                  if (!r) return;
-                  const s = document.createElement("style");
-                  s.id = id;
-                  s.textContent = text;
-                  r.appendChild(s);
-              };
-
-              const apply = () => {
-                  const r = root();
-                  if (!r) return;
-                  if (OPT.touchFix) {
-                      let m = document.querySelector('meta[name="viewport"]');
-                      if (!m) { m = document.createElement("meta"); m.name = "viewport"; r.appendChild(m); }
-                      m.content = "width=device-width, initial-scale=1, viewport-fit=cover";
-                  }
-                  addStyle("vmf-style", css.join("\n"));
-                  addStyle("vmf-vencord-css", window.__VMF_CSS); // estilos de Vencord (browser.css)
-                  buildUI();
-              };
-
-              // ---- botón flotante con acceso a los ajustes de Vencord ----
-              function buildUI() {
-                  if (!OPT.floatingButton || !document.body || document.getElementById("vmf-fab")) return;
-
-                  addStyle("vmf-ui-style", `
-                      #vmf-fab{position:fixed;left:6px;top:42%;width:40px;height:40px;border-radius:50%;
-                        background:#5865f2;color:#fff;font:700 18px/40px sans-serif;text-align:center;
-                        opacity:.5;z-index:2147483646;user-select:none;touch-action:manipulation}
-                      #vmf-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(86vw,340px);
-                        background:#1e1f22;color:#fff;border-radius:14px;padding:14px;z-index:2147483647;
-                        font:15px sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.6);display:none}
-                      #vmf-panel b{display:block;margin-bottom:4px;font-size:16px}
-                      #vmf-msg{font-size:13px;opacity:.85;margin:4px 0 10px;white-space:pre-wrap}
-                      #vmf-panel button{display:block;width:100%;margin:6px 0;padding:12px;border:0;border-radius:8px;
-                        background:#5865f2;color:#fff;font:600 15px sans-serif;touch-action:manipulation}
-                      #vmf-panel button.vmf-x{background:#3b3d44}
-                  `);
-
-                  const fab = document.createElement("div");
-                  fab.id = "vmf-fab";
-                  fab.textContent = "B";
-
-                  const panel = document.createElement("div");
-                  panel.id = "vmf-panel";
-                  const title = document.createElement("b");
-                  title.textContent = "BlackCord";
-                  const msg = document.createElement("div");
-                  msg.id = "vmf-msg";
-                  panel.append(title, msg);
-
-                  const open = (key) => {
-                      try {
-                          const t = window.Vencord && window.Vencord.__vmf;
-                          if (!window.Vencord) throw new Error("BlackCord no se cargó.");
-                          if (!t) throw new Error("Esta versión de BlackCord no permite abrir los ajustes desde aquí.");
-                          t.open(t[key]);
-                          panel.style.display = "none";
-                      } catch (e) {
-                          msg.textContent = "No se pudo abrir: " + (e && e.message ? e.message : e) +
-                              "\nSi acabas de abrir la app, espera unos segundos a que Discord cargue y reintenta.";
-                      }
-                  };
-
-                  [["Ajustes de BlackCord", "main"], ["Plugins", "plugins"], ["Temas", "themes"],
-                   ["Nube", "cloud"], ["Respaldo y restaurar", "backup"]].forEach(([label, key]) => {
-                      const b = document.createElement("button");
-                      b.textContent = label;
-                      b.addEventListener("click", () => open(key));
-                      panel.appendChild(b);
-                  });
-                  const close = document.createElement("button");
-                  close.className = "vmf-x";
-                  close.textContent = "Cerrar";
-                  close.addEventListener("click", () => { panel.style.display = "none"; });
-                  panel.appendChild(close);
-
-                  fab.addEventListener("click", () => {
-                      const loaded = !!window.Vencord;
-                      msg.textContent = loaded
-                          ? "BlackCord cargado correctamente. Elige qué abrir:"
-                          : "BlackCord NO se ha cargado. Cierra y abre la app; si sigue igual, avísame.";
-                      panel.style.display = panel.style.display === "block" ? "none" : "block";
-                  });
-
-                  document.body.append(fab, panel);
-              }
-
-              if (OPT.passiveTouch) {
-                  try {
-  
+      - name: Parchear Vencord (ajustes y nombre BlackCord)
+        run: python3 patch_vencord.py
+      - name: Compilar APK
+        run: gradle assembleRelease --no-daemon
+      - name: Guardar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlackCord-apk
+          path: app/build/outputs/apk/release/*.apk
+      - name: Publicar release con enlace directo
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: BlackCord ${{ github.run_number }}
+          files: app/build/outputs/apk/release/*.apk
+          

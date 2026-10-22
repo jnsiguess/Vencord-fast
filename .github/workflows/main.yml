@@ -1,4 +1,4 @@
-name: Build APK
+name: Build BlackCord APK
 on:
   workflow_dispatch:
 
@@ -20,10 +20,10 @@ jobs:
         run: |
           mkdir -p app/src/main/assets
           curl -L --fail -o app/src/main/assets/browser.js https://github.com/Vendicated/Vencord/releases/download/devbuild/browser.js
-          ls -la app/src/main/assets/browser.js
+          curl -L --fail -o app/src/main/assets/browser.css https://github.com/Vendicated/Vencord/releases/download/devbuild/browser.css || echo "sin browser.css"
+          ls -la app/src/main/assets
       - name: Crear settings.gradle.kts
         run: |
-          :
           cat > "settings.gradle.kts" <<'EOF_VMF'
           pluginManagement {
               repositories {
@@ -39,12 +39,11 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = "VencordMobileFast"
+          rootProject.name = "BlackCord"
           include(":app")
           EOF_VMF
       - name: Crear build.gradle.kts
         run: |
-          :
           cat > "build.gradle.kts" <<'EOF_VMF'
           plugins {
               id("com.android.application") version "8.5.2" apply false
@@ -53,7 +52,6 @@ jobs:
           EOF_VMF
       - name: Crear gradle.properties
         run: |
-          :
           cat > "gradle.properties" <<'EOF_VMF'
           org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
           android.useAndroidX=true
@@ -69,11 +67,11 @@ jobs:
           }
 
           android {
-              namespace = "dev.vencordmobile.fast"
+              namespace = "dev.blackcord.app"
               compileSdk = 34
 
               defaultConfig {
-                  applicationId = "dev.vencordmobile.fast"
+                  applicationId = "dev.blackcord.app"
                   minSdk = 24
                   targetSdk = 34
                   versionCode = 1
@@ -110,7 +108,8 @@ jobs:
               <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
               <application
-                  android:label="Vencord Fast"
+                  android:label="BlackCord"
+                  android:icon="@mipmap/ic_launcher"
                   android:hardwareAccelerated="true"
                   android:usesCleartextTraffic="false"
                   android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
@@ -129,11 +128,11 @@ jobs:
               </application>
           </manifest>
           EOF_VMF
-      - name: Crear app/src/main/java/dev/vencordmobile/fast/MainActivity.kt
+      - name: Crear app/src/main/java/dev/blackcord/app/MainActivity.kt
         run: |
-          mkdir -p "app/src/main/java/dev/vencordmobile/fast"
-          cat > "app/src/main/java/dev/vencordmobile/fast/MainActivity.kt" <<'EOF_VMF'
-          package dev.vencordmobile.fast
+          mkdir -p "app/src/main/java/dev/blackcord/app"
+          cat > "app/src/main/java/dev/blackcord/app/MainActivity.kt" <<'EOF_VMF'
+          package dev.blackcord.app
 
           import android.Manifest
           import android.annotation.SuppressLint
@@ -205,7 +204,9 @@ jobs:
                   }
 
                   // capa táctil + Vencord completo
-                  payload = readAsset("mobile_layer.js") + "\n;\n" + readAsset("browser.js")
+                  val vencordCss = try { readAsset("browser.css") } catch (e: Exception) { "" }
+                  payload = "window.__VMF_CSS=" + org.json.JSONObject.quote(vencordCss) + ";\n" +
+                      readAsset("mobile_layer.js") + "\n;\n" + readAsset("browser.js")
 
                   if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
                       WebViewCompat.addDocumentStartJavaScript(web, payload, setOf("https://discord.com"))
@@ -311,10 +312,10 @@ jobs:
         run: |
           mkdir -p "app/src/main/assets"
           cat > "app/src/main/assets/mobile_layer.js" <<'EOF_VMF'
-          // Capa táctil y de rendimiento (se ejecuta antes que Vencord y que la página)
+          // Capa táctil + CSS de BlackCord + botón flotante "B" para abrir los ajustes de BlackCord
           (() => {
               "use strict";
-              const OPT = { touchFix: true, pressFeedback: true, lite: true, passiveTouch: true };
+              const OPT = { touchFix: true, pressFeedback: true, lite: true, passiveTouch: true, floatingButton: true };
 
               const css = [];
               if (OPT.touchFix) css.push(`
@@ -332,6 +333,16 @@ jobs:
 
               const root = () => document.head || document.documentElement;
 
+              const addStyle = (id, text) => {
+                  if (!text || document.getElementById(id)) return;
+                  const r = root();
+                  if (!r) return;
+                  const s = document.createElement("style");
+                  s.id = id;
+                  s.textContent = text;
+                  r.appendChild(s);
+              };
+
               const apply = () => {
                   const r = root();
                   if (!r) return;
@@ -340,44 +351,78 @@ jobs:
                       if (!m) { m = document.createElement("meta"); m.name = "viewport"; r.appendChild(m); }
                       m.content = "width=device-width, initial-scale=1, viewport-fit=cover";
                   }
-                  if (css.length && !document.getElementById("vmf-style")) {
-                      const s = document.createElement("style");
-                      s.id = "vmf-style";
-                      s.textContent = css.join("\n");
-                      r.appendChild(s);
-                  }
+                  addStyle("vmf-style", css.join("\n"));
+                  addStyle("vmf-vencord-css", window.__VMF_CSS); // estilos de Vencord (browser.css)
+                  buildUI();
               };
+
+              // ---- botón flotante con acceso a los ajustes de Vencord ----
+              function buildUI() {
+                  if (!OPT.floatingButton || !document.body || document.getElementById("vmf-fab")) return;
+
+                  addStyle("vmf-ui-style", `
+                      #vmf-fab{position:fixed;left:6px;top:42%;width:40px;height:40px;border-radius:50%;
+                        background:#5865f2;color:#fff;font:700 18px/40px sans-serif;text-align:center;
+                        opacity:.5;z-index:2147483646;user-select:none;touch-action:manipulation}
+                      #vmf-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(86vw,340px);
+                        background:#1e1f22;color:#fff;border-radius:14px;padding:14px;z-index:2147483647;
+                        font:15px sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.6);display:none}
+                      #vmf-panel b{display:block;margin-bottom:4px;font-size:16px}
+                      #vmf-msg{font-size:13px;opacity:.85;margin:4px 0 10px;white-space:pre-wrap}
+                      #vmf-panel button{display:block;width:100%;margin:6px 0;padding:12px;border:0;border-radius:8px;
+                        background:#5865f2;color:#fff;font:600 15px sans-serif;touch-action:manipulation}
+                      #vmf-panel button.vmf-x{background:#3b3d44}
+                  `);
+
+                  const fab = document.createElement("div");
+                  fab.id = "vmf-fab";
+                  fab.textContent = "B";
+
+                  const panel = document.createElement("div");
+                  panel.id = "vmf-panel";
+                  const title = document.createElement("b");
+                  title.textContent = "BlackCord";
+                  const msg = document.createElement("div");
+                  msg.id = "vmf-msg";
+                  panel.append(title, msg);
+
+                  const open = (key) => {
+                      try {
+                          const t = window.Vencord && window.Vencord.__vmf;
+                          if (!window.Vencord) throw new Error("BlackCord no se cargó.");
+                          if (!t) throw new Error("Esta versión de BlackCord no permite abrir los ajustes desde aquí.");
+                          t.open(t[key]);
+                          panel.style.display = "none";
+                      } catch (e) {
+                          msg.textContent = "No se pudo abrir: " + (e && e.message ? e.message : e) +
+                              "\nSi acabas de abrir la app, espera unos segundos a que Discord cargue y reintenta.";
+                      }
+                  };
+
+                  [["Ajustes de BlackCord", "main"], ["Plugins", "plugins"], ["Temas", "themes"],
+                   ["Nube", "cloud"], ["Respaldo y restaurar", "backup"]].forEach(([label, key]) => {
+                      const b = document.createElement("button");
+                      b.textContent = label;
+                      b.addEventListener("click", () => open(key));
+                      panel.appendChild(b);
+                  });
+                  const close = document.createElement("button");
+                  close.className = "vmf-x";
+                  close.textContent = "Cerrar";
+                  close.addEventListener("click", () => { panel.style.display = "none"; });
+                  panel.appendChild(close);
+
+                  fab.addEventListener("click", () => {
+                      const loaded = !!window.Vencord;
+                      msg.textContent = loaded
+                          ? "BlackCord cargado correctamente. Elige qué abrir:"
+                          : "BlackCord NO se ha cargado. Cierra y abre la app; si sigue igual, avísame.";
+                      panel.style.display = panel.style.display === "block" ? "none" : "block";
+                  });
+
+                  document.body.append(fab, panel);
+              }
 
               if (OPT.passiveTouch) {
                   try {
-                      const proto = EventTarget.prototype, orig = proto.addEventListener;
-                      const types = new Set(["touchstart", "touchmove", "wheel", "mousewheel"]);
-                      proto.addEventListener = function (type, fn, opts) {
-                          if (types.has(type)) {
-                              if (opts == null || typeof opts === "boolean") opts = { capture: !!opts, passive: true };
-                              else if (typeof opts === "object" && opts.passive === undefined) opts = { ...opts, passive: true };
-                          }
-                          return orig.call(this, type, fn, opts);
-                      };
-                  } catch (e) { console.warn("[VencordFast] passive patch omitido", e); }
-              }
-
-              apply();
-              document.addEventListener("DOMContentLoaded", apply);
-              new MutationObserver(apply).observe(document, { childList: true, subtree: false });
-          })();
-          EOF_VMF
-      - name: Compilar APK
-        run: gradle assembleRelease --no-daemon
-      - name: Guardar APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: VencordFast-apk
-          path: app/build/outputs/apk/release/*.apk
-      - name: Publicar release con enlace directo
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: apk-${{ github.run_number }}
-          name: Vencord Fast ${{ github.run_number }}
-          files: app/build/outputs/apk/release/*.apk
-          
+  
